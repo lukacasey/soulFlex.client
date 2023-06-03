@@ -1,0 +1,6 @@
+/* this file contains all the style modifications doe the Calender.js file */
+
+/* remove underline from days of week */
+abbr[title] {
+  text-decoration: none;
+}

@@ -1,0 +1,23 @@
+.timePicker-container {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: aqua;
+  align-items: center;
+  width: fit-content;
+  margin: 3rem;
+}
+
+.timePicker-container div {
+  border: 1px solid rgb(180, 180, 180);
+  background-color: white;
+  padding: 0.6rem;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+
+.timePicker-container div:hover {
+  background-color: rgb(228, 228, 228);
+  cursor: pointer;
+}

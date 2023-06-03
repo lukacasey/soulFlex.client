@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
+import Timepicker from "./Timepicker";
 import "react-calendar/dist/Calendar.css";
+import "../../styles/calendarStyles.css";
 
-export default function Bookings() {
-  // for setting day
+export default function Calender() {
+  // state & function for selecting date
   const [value, setValue] = useState(new Date());
-
   function onChange(date) {
     setValue(date);
-    console.log(date.toDateString());
+    console.log(date);
   }
 
   function tileDisabled({ date, view }) {
@@ -29,13 +30,11 @@ export default function Bookings() {
       return true;
     }
 
-    // dates to be disabled
-    const disabledDates = [new Date("2023-06-13"), new Date("2023-06-14")];
-
-    // convert to string and disable
-    return disabledDates.some(
-      (disabledDate) => date.toDateString() === disabledDate.toDateString()
-    );
+    // if you want to disabel specific date[s] uncomment the code below and add to the array
+    // const disabledDates = [new Date("2023-06-13"), new Date("2023-06-14")];
+    // return disabledDates.some(
+    //   (disabledDate) => date.toDateString() === disabledDate.toDateString()
+    // );
   }
 
   return (
@@ -46,6 +45,8 @@ export default function Bookings() {
           value={value}
           tileDisabled={tileDisabled}
         />
+        {/* passing in date value to be used for timepicker */}
+        <Timepicker selectedDate={value} />
       </div>
     </>
   );

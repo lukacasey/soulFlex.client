@@ -1,9 +1,9 @@
-import Bookings from "./booking/Bookings";
+import Calender from "./booking/Calender";
 
 function App() {
   return (
     <>
-      <Bookings />
+      <Calender />
     </>
   );
 }
