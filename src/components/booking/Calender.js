@@ -7,9 +7,12 @@ import "../../styles/calendarStyles.css";
 export default function Calender() {
   // state & function for selecting date
   const [value, setValue] = useState(new Date());
+  // Add a state for timeString
+  const [timeString, setTimeString] = useState();
   function onChange(date) {
     setValue(date);
-    console.log(date);
+    setTimeString(undefined);
+    // console.log(date, timeString);
   }
 
   function tileDisabled({ date, view }) {
@@ -37,6 +40,16 @@ export default function Calender() {
     // );
   }
 
+  function temp(date) {
+    if (value.toDateString() === new Date().toDateString()) {
+      console.log("Must pick a date");
+    } else if (timeString === undefined) {
+      console.log("Must pick a time");
+    } else {
+      console.log(value.toDateString(), timeString);
+    }
+  }
+
   return (
     <>
       <div>
@@ -46,7 +59,12 @@ export default function Calender() {
           tileDisabled={tileDisabled}
         />
         {/* passing in date value to be used for timepicker */}
-        <Timepicker selectedDate={value} />
+        <Timepicker
+          selectedDate={value}
+          timeString={timeString}
+          setTimeString={setTimeString}
+        />
+        <div onClick={temp}>Button</div>
       </div>
     </>
   );

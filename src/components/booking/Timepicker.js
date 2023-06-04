@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/timePicker.css";
 
 // recieving date from calendar
-export default function Timepicker({ selectedDate }) {
+export default function Timepicker({
+  selectedDate,
+  timeString,
+  setTimeString,
+}) {
   // useState for time value
   const [value, setValue] = useState();
   // useState for background color
@@ -14,8 +18,17 @@ export default function Timepicker({ selectedDate }) {
     setValue(index);
     setBgColor(index); // Set the index as the background color value
     setColor(index);
-    console.log(timeRanges[index]);
+    timeString = JSON.stringify(timeRanges[index]);
+    const newTimeString = JSON.stringify(timeRanges[index]);
+    setTimeString(newTimeString);
+    // console.log(timeString);
   }
+
+  // reset background color when changing date
+  useEffect(() => {
+    setBgColor("");
+    setColor("");
+  }, [selectedDate]);
 
   // Get the day of the selected date
   const dayOfWeek = selectedDate.getDay();
