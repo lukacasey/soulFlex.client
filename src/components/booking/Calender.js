@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import Timepicker from "./Timepicker";
+// styles
 import "react-calendar/dist/Calendar.css";
 import "../../styles/calendarStyles.css";
 
@@ -40,13 +41,16 @@ export default function Calender() {
     // );
   }
 
+  // to be replaced with error habdling/ loged variables to be POSTed
   function temp(date) {
     if (value.toDateString() === new Date().toDateString()) {
       console.log("Must pick a date");
     } else if (timeString === undefined) {
       console.log("Must pick a time");
     } else {
-      console.log(value.toDateString(), timeString);
+      let bookingString = value.toDateString();
+      // two variables to be pushed to db
+      console.log(bookingString, timeString);
     }
   }
 
@@ -58,7 +62,6 @@ export default function Calender() {
           value={value}
           tileDisabled={tileDisabled}
         />
-        {/* passing in date value to be used for timepicker */}
         <Timepicker
           selectedDate={value}
           timeString={timeString}

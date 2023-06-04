@@ -11,17 +11,18 @@ export default function Timepicker({
   const [value, setValue] = useState();
   // useState for background color
   const [bgColor, setBgColor] = useState("");
+  // useState for color
   const [color, setColor] = useState("");
 
-  // pass the index value and log timeRanges of index value
+  // updating time usestates
   function onClick(index) {
+    // updating
     setValue(index);
-    setBgColor(index); // Set the index as the background color value
-    setColor(index);
     timeString = JSON.stringify(timeRanges[index]);
-    const newTimeString = JSON.stringify(timeRanges[index]);
-    setTimeString(newTimeString);
-    // console.log(timeString);
+    setTimeString(timeString);
+    // updating time styles
+    setBgColor(index);
+    setColor(index);
   }
 
   // reset background color when changing date
@@ -85,9 +86,6 @@ export default function Timepicker({
     // Handle other days of the week if needed
     timeRanges = [];
   }
-
-  // Do a GET request where dbDate === selectedDate
-  // if dbTime === timeRanges[i], change styles
 
   return (
     <>
