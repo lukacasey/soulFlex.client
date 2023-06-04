@@ -2,19 +2,19 @@
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-  background-color: aqua;
   align-items: center;
-  width: fit-content;
+  width: 8rem;
   margin: 3rem;
+  border: 1px solid rgb(180, 180, 180);
 }
 
 .timePicker-container div {
-  border: 1px solid rgb(180, 180, 180);
+  border: 0px solid rgb(180, 180, 180);
   background-color: white;
-  padding: 0.6rem;
+  padding: 0.6rem 0rem;
   width: 100%;
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .timePicker-container div:hover {

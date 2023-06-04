@@ -1,7 +1,22 @@
+import { useState } from "react";
 import "../../styles/timePicker.css";
 
 // recieving date from calendar
 export default function Timepicker({ selectedDate }) {
+  // useState for time value
+  const [value, setValue] = useState();
+  // useState for background color
+  const [bgColor, setBgColor] = useState("");
+  const [color, setColor] = useState("");
+
+  // pass the index value and log timeRanges of index value
+  function onClick(index) {
+    setValue(index);
+    setBgColor(index); // Set the index as the background color value
+    setColor(index);
+    console.log(timeRanges[index]);
+  }
+
   // Get the day of the selected date
   const dayOfWeek = selectedDate.getDay();
 
@@ -67,7 +82,18 @@ export default function Timepicker({ selectedDate }) {
         {/* this code maps over the timeRanges array, generating a set of <div> elements for each time range. */}
         {timeRanges.map((range, index) => (
           // the class names of the <div> elements are dynamically generated based on the index value.
-          <div key={index} className={`t${index}`}>
+          <div
+            key={index}
+            className={`t${index}`}
+            // pass the index value to onlClick function
+            onClick={() => onClick(index)}
+            // Apply the background color dynamically
+            style={{
+              backgroundColor: index === bgColor ? "#006edc" : "initial",
+              color: index === color ? "white" : "initial",
+            }}
+            value={value}
+          >
             {/* The start and end times are displayed as text content. */}
             {`${range.start} - ${range.end}`}
           </div>
