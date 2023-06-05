@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import Timepicker from "./Timepicker";
+import { useBooking } from "../../hooks/useBooking";
 // styles
 import "react-calendar/dist/Calendar.css";
 import "../../styles/calendarStyles.css";
 
 export default function Calender() {
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const { booking, error } = useBooking();
   // state & function for selecting date
   const [value, setValue] = useState(new Date());
-  // Add a state for timeString
-  const [timeString, setTimeString] = useState();
+  // Add a state for time
+  const [time, setTime] = useState();
   function onChange(date) {
     setValue(date);
-    setTimeString(undefined);
-    // console.log(date, timeString);
+    setTime(undefined);
+    // console.log(date, time);
   }
 
   function tileDisabled({ date, view }) {
@@ -41,34 +45,44 @@ export default function Calender() {
     // );
   }
 
-  // to be replaced with error habdling/ loged variables to be POSTed
-  function temp(date) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (value.toDateString() === new Date().toDateString()) {
       console.log("Must pick a date");
-    } else if (timeString === undefined) {
+    } else if (time === undefined) {
       console.log("Must pick a time");
     } else {
-      let bookingString = value.toDateString();
+      let date = value.toDateString();
       // two variables to be pushed to db
-      console.log(bookingString, timeString);
+      console.log(email, fullName, date, time);
+      await booking(email, fullName, date, time);
     }
-  }
+  };
 
   return (
     <>
-      <div>
+      <form className="booking-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          placeholder="Enter Email"
+        />
+        <input
+          type="text"
+          onChange={(e) => setFullName(e.target.value)}
+          value={fullName}
+          placeholder="Enter Full Name"
+        />
         <Calendar
           onChange={onChange}
           value={value}
           tileDisabled={tileDisabled}
         />
-        <Timepicker
-          selectedDate={value}
-          timeString={timeString}
-          setTimeString={setTimeString}
-        />
-        <div onClick={temp}>Button</div>
-      </div>
+        <Timepicker selectedDate={value} time={time} setTime={setTime} />
+        <button>Book appointment</button>
+        {error && <div className="error">{error}</div>}
+      </form>
     </>
   );
 }

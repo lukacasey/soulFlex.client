@@ -4,3 +4,8 @@
 abbr[title] {
   text-decoration: none;
 }
+
+/* styles the error message on the bookings page */
+.error {
+  color: red;
+}
