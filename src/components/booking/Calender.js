@@ -45,12 +45,16 @@ export default function Calender() {
     // );
   }
 
+  const [logicErr, setLogicErr] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLogicErr("");
     if (value.toDateString() === new Date().toDateString()) {
       console.log("Must pick a date");
+      setLogicErr("Must pick a date");
     } else if (time === undefined) {
       console.log("Must pick a time");
+      setLogicErr("Must pick a time");
     } else {
       let date = value.toDateString();
       // two variables to be pushed to db
@@ -81,7 +85,10 @@ export default function Calender() {
         />
         <Timepicker selectedDate={value} time={time} setTime={setTime} />
         <button>Book appointment</button>
+        {/* for error handling from hooks */}
         {error && <div className="error">{error}</div>}
+        {/* for custom error handling */}
+        {logicErr && <div className="error">{logicErr}</div>}
       </form>
     </>
   );
