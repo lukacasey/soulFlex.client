@@ -1,31 +1,14 @@
 import { useState, useEffect } from "react";
 import "../../styles/timePicker.css";
 
-// recieving date from calendar
+// Recieving date from calendar
 export default function Timepicker({ selectedDate, time, setTime }) {
-  // useState for time value
+  // State variables
   const [value, setValue] = useState();
-  // useState for background color
   const [bgColor, setBgColor] = useState("");
-  // useState for color
   const [color, setColor] = useState("");
-
-  // updating time usestates
-  function onClick(index) {
-    // updating
-    setValue(index);
-    time = JSON.stringify(timeRanges[index]);
-    setTime(time);
-    // updating time styles
-    setBgColor(index);
-    setColor(index);
-  }
-
-  // reset background color when changing date
-  useEffect(() => {
-    setBgColor("");
-    setColor("");
-  }, [selectedDate]);
+  const [hoverColor, setHoverColor] = useState("");
+  const [hoverBackgroundColor, setHoverBackgroundColor] = useState("");
 
   // Get the day of the selected date
   const dayOfWeek = selectedDate.getDay();
@@ -83,21 +66,45 @@ export default function Timepicker({ selectedDate, time, setTime }) {
     timeRanges = [];
   }
 
+  // Updating useStates
+  function onClick(index) {
+    const selectedRange = timeRanges[index];
+    const selectedTime = JSON.stringify(selectedRange);
+    setTime(selectedTime);
+    setBgColor(index);
+    setColor(index);
+  }
+
+  // Reset background color when changing date
+  useEffect(() => {
+    setBgColor("");
+    setColor("");
+  }, [selectedDate]);
+
   return (
     <>
       <div className="timePicker-container">
-        {/* this code maps over the timeRanges array, generating a set of <div> elements for each time range. */}
+        {/* This code maps over the timeRanges array, generating a set of <div> elements for each time range. */}
         {timeRanges.map((range, index) => (
-          // the class names of the <div> elements are dynamically generated based on the index value.
+          // The class names of the <div> elements are dynamically generated based on the index value.
           <div
             key={index}
             className={`t${index}`}
-            // pass the index value to onlClick function
+            // Pass the index value to onClick function
             onClick={() => onClick(index)}
+            // Hover effect
+            onMouseEnter={() => {
+              setHoverBackgroundColor(`t${index}`);
+              setHoverColor(`t${index}`);
+            }}
+            onMouseLeave={() => {
+              setHoverBackgroundColor("");
+              setHoverColor("");
+            }}
             // Apply the background color dynamically
             style={{
-              backgroundColor: index === bgColor ? "#006edc" : "initial",
-              color: index === color ? "white" : "initial",
+              backgroundColor: index === bgColor ? "#006edc" : "",
+              color: index === color ? "white" : "",
             }}
             value={value}
           >
