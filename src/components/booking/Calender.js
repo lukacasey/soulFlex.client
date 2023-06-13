@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import Timepicker from "./Timepicker";
 import { useBooking } from "../../hooks/useBooking";
@@ -14,6 +14,21 @@ export default function Calender() {
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState();
   const [logicErr, setLogicErr] = useState("");
+  const [appointments, setAppointments] = useState([]);
+
+  // Fetch appointments
+  useEffect(() => {
+    const HOST = process.env.REACT_APP_HOST;
+    const fetchAppointments = async () => {
+      const response = await fetch(`${HOST}/api/appointments`);
+      const json = await response.json();
+
+      if (response.ok) {
+        setAppointments(json);
+      }
+    };
+    fetchAppointments();
+  }, []);
 
   // Imported from hooks - useBooking
   const { booking, error } = useBooking();
@@ -70,6 +85,13 @@ export default function Calender() {
 
   return (
     <>
+      {appointments.map((appointment) => (
+        <p key={appointment._id}>
+          {appointment.fullName}
+          {appointment.date}
+          {appointment.time}
+        </p>
+      ))}
       <form className="booking-form" onSubmit={handleSubmit}>
         <input
           type="email"
