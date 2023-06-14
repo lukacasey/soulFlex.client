@@ -102,11 +102,11 @@ export default function Timepicker({ selectedDate, time, setTime }) {
 
   return (
     <>
-      {appointments.map((appointment) => (
+      {/* {appointments.map((appointment) => (
         <p key={appointment._id}>
           {appointment.date} {appointment.time}
         </p>
-      ))}
+      ))} */}
       <div className="timePicker-container">
         {timeRanges.map((range, index) => {
           const isSelectedAppointment = appointments.find(
