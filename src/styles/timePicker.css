@@ -19,6 +19,6 @@
 }
 
 .timePicker-container div:hover {
-  background-color: rgb(235, 235, 235);
   cursor: pointer;
+  background-color: rgb(235, 235, 235);
 }

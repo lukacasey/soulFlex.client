@@ -4,12 +4,29 @@ import "../../styles/timePicker.css";
 // Recieving date from calendar
 export default function Timepicker({ selectedDate, time, setTime }) {
   // State variables
-  const [value, setValue] = useState();
   const [bgColor, setBgColor] = useState("");
   const [color, setColor] = useState("");
-  const [hoverColor, setHoverColor] = useState("");
-  const [hoverBackgroundColor, setHoverBackgroundColor] = useState("");
+  const [appointments, setAppointments] = useState([]);
 
+  // Fetch appointments
+  useEffect(() => {
+    const HOST = process.env.REACT_APP_HOST;
+    const fetchAppointments = async () => {
+      try {
+        const response = await fetch(`${HOST}/api/appointments`);
+        const json = await response.json();
+
+        if (response.ok) {
+          setAppointments(json);
+        } else {
+          throw new Error(json.error);
+        }
+      } catch (error) {
+        console.log("Error:", error.message);
+      }
+    };
+    fetchAppointments();
+  }, []);
   // Get the day of the selected date
   const dayOfWeek = selectedDate.getDay();
 
@@ -71,8 +88,10 @@ export default function Timepicker({ selectedDate, time, setTime }) {
     const selectedRange = timeRanges[index];
     const selectedTime = JSON.stringify(selectedRange);
     setTime(selectedTime);
-    setBgColor(index);
+    console.log(selectedTime); //time value
+    console.log(selectedDate.toDateString()); //date value
     setColor(index);
+    setBgColor(index);
   }
 
   // Reset background color when changing date
@@ -83,35 +102,51 @@ export default function Timepicker({ selectedDate, time, setTime }) {
 
   return (
     <>
+      {appointments.map((appointment) => (
+        <p key={appointment._id}>
+          {appointment.date} {appointment.time}
+        </p>
+      ))}
       <div className="timePicker-container">
-        {/* This code maps over the timeRanges array, generating a set of <div> elements for each time range. */}
-        {timeRanges.map((range, index) => (
-          // The class names of the <div> elements are dynamically generated based on the index value.
-          <div
-            key={index}
-            className={`t${index}`}
-            // Pass the index value to onClick function
-            onClick={() => onClick(index)}
-            // Hover effect
-            onMouseEnter={() => {
-              setHoverBackgroundColor(`t${index}`);
-              setHoverColor(`t${index}`);
-            }}
-            onMouseLeave={() => {
-              setHoverBackgroundColor("");
-              setHoverColor("");
-            }}
-            // Apply the background color dynamically
-            style={{
-              backgroundColor: index === bgColor ? "#006edc" : "",
-              color: index === color ? "white" : "",
-            }}
-            value={value}
-          >
-            {/* The start and end times are displayed as text content. */}
-            {`${range.start} - ${range.end}`}
-          </div>
-        ))}
+        {timeRanges.map((range, index) => {
+          const isSelectedAppointment = appointments.find(
+            (appointment) =>
+              selectedDate.toDateString() === appointment.date &&
+              JSON.stringify(range) === appointment.time
+          );
+          const isSelected =
+            selectedDate.toDateString() === appointments[color]?.date &&
+            JSON.stringify(timeRanges[color]) === appointments[color]?.time;
+
+          return (
+            <div
+              key={index}
+              className={`t${index}`}
+              onClick={() => {
+                if (!isSelectedAppointment) {
+                  onClick(index);
+                }
+              }}
+              style={{
+                backgroundColor:
+                  index === color
+                    ? "#006edc"
+                    : index === bgColor || isSelectedAppointment
+                    ? "rgb(235, 235, 235)"
+                    : "",
+                color:
+                  index === color || (isSelectedAppointment && index === color)
+                    ? "white"
+                    : isSelectedAppointment
+                    ? "grey"
+                    : "",
+                cursor: isSelectedAppointment ? "not-allowed" : "pointer",
+              }}
+            >
+              {`${range.start} - ${range.end}`}
+            </div>
+          );
+        })}
       </div>
     </>
   );
