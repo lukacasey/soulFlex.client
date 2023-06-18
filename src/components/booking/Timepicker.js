@@ -33,7 +33,7 @@ export default function Timepicker({ selectedDate, time, setTime }) {
   // Define the time ranges based on the day of the week
   let timeRanges;
   if (dayOfWeek >= 1 && dayOfWeek <= 6) {
-    // If the day is Monday to Thursday (dayOfWeek: 1-4)
+    // If the day is Monday to Saturday (dayOfWeek: 1-6)
     timeRanges = [
       { start: "6:00", end: "7:00" },
       { start: "7:00", end: "8:00" },
@@ -102,13 +102,16 @@ export default function Timepicker({ selectedDate, time, setTime }) {
 
   return (
     <>
+      {/* for displaying dates appointments that have been made. For development */}
       {/* {appointments.map((appointment) => (
         <p key={appointment._id}>
           {appointment.date} {appointment.time}
         </p>
       ))} */}
       <div className="timePicker-container">
+        {/* Map over the timeRanges array */}
         {timeRanges.map((range, index) => {
+          // Check if the current range is already selected as an appointment
           const isSelectedAppointment = appointments.find(
             (appointment) =>
               selectedDate.toDateString() === appointment.date &&
@@ -123,10 +126,13 @@ export default function Timepicker({ selectedDate, time, setTime }) {
               key={index}
               className={`t${index}`}
               onClick={() => {
+                // Only trigger onClick if the current range is not already an appointment
                 if (!isSelectedAppointment) {
                   onClick(index);
                 }
               }}
+              // dynamically applying different styles to the div elements based on various conditions and variables...
+              // resulting in different background colors, text colors, and cursor styles for different cases.
               style={{
                 backgroundColor:
                   index === color
@@ -143,6 +149,7 @@ export default function Timepicker({ selectedDate, time, setTime }) {
                 cursor: isSelectedAppointment ? "not-allowed" : "pointer",
               }}
             >
+              {/* Display the start and end time of the range */}
               {`${range.start} - ${range.end}`}
             </div>
           );

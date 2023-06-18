@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import Timepicker from "./Timepicker";
 import { useBooking } from "../../hooks/useBooking";
