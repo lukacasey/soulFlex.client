@@ -1,9 +1,11 @@
-import Calender from "./booking/Calender";
+import BookingPage from "./booking/BookingPage";
+import Homepage from "./home/HomePage"
 
 function App() {
   return (
     <>
-      <Calender />
+      {/* <BookingPage /> */}
+      <Homepage />
     </>
   );
 }

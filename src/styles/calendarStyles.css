@@ -9,3 +9,16 @@ abbr[title] {
 .error {
   color: red;
 }
+
+/* Hide right year arrow */
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+/* Hide left year arrow */
+.react-calendar__navigation__prev2-button {
+  display: none;
+}
+/* Make year selector unclickable */
+.react-calendar__navigation__label {
+  pointer-events: none;
+}
